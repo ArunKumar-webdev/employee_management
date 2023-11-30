@@ -14,7 +14,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
     reset
   } = useForm({ defaultValues: { id: findData?.id, employee_name: findData?.employee_name, employee_salary: findData?.employee_salary, employee_age: findData?.employee_age, profile_image: findData?.profile_image } });
 
-  const [proPicUrl, setproPicUrl] = useState('');
+  const [proPicUrl, setproPicUrl] = useState(findData?.profile_image ? findData?.profile_image : '');
   const router = useRouter();
   const onSubmit = (data) => {
     createEmployee(data);
