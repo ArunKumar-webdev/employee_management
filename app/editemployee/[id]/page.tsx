@@ -1,13 +1,14 @@
 "use client";
 import React from "react";
-import Form from "@/components/Form";
+import Form from "../../../components/Form";
 import { useEmployeesStore } from '../../../store/Employee'
 
-const EditEmployee = ({ params }) => {
-  const { id } = params;
+const EditEmployee = ({ emplyId }) => {
+  const id = emplyId;
   const employees = useEmployeesStore((state) => state.employeeList)
   const isLoading = useEmployeesStore((state) => state.isLoading);
   const updateEmployee = useEmployeesStore((state) => state.updateEmployee)
+  const setisEditOpen = useEmployeesStore((state) => state.setisEditOpen)
   const isError = useEmployeesStore((state) => state.error);
   const findData = employees.find((data => data.id == id));
 
@@ -18,6 +19,7 @@ const EditEmployee = ({ params }) => {
       isLoading={isLoading}
       updateEmployee={updateEmployee}
       isError={isError}
+      setisEditOpen={setisEditOpen}
     />
   );
 };

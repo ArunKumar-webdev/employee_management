@@ -4,7 +4,7 @@ import { BiEdit, BiTrashAlt } from "react-icons/bi";
 import Loading from "./loading";
 import React from "react";
 
-export default function Table({ isError, isLoading, employees, handleEdit, handleDelete }) {
+export default function Table({ isError, isLoading, employees, handleEdit, handleDelete, action }) {
 
     const [paginationModel, setPaginationModel] = useState({
         pageSize: 10,
@@ -21,8 +21,8 @@ export default function Table({ isError, isLoading, employees, handleEdit, handl
             field: 'employee_name', headerName: 'Employee Name', sortable: false, width: 200,
             renderCell: (params: GridRenderCellParams) => {
                 return <>
-                    <img className="rounded-full w-[28px] h-[28px]" src={params.row.profile_image == "" ? '/assets/icons/avatar.png' : params.row.profile_image} alt="" />
-                    <label title={params.formattedValue} className={`mx-2 ${params.formattedValue.length > 24 ? 'truncate' : ''}`}>{params.formattedValue}</label>
+                    <img className="rounded-full w-[28px] h-[28px]" src={params.row.avatar == "" ? '/assets/icons/avatar.png' : params.row.avatar} alt="" />
+                    <label title={params.formattedValue} className={`mx-2 ${params?.formattedValue?.length > 24 ? 'truncate' : ''}`}>{params.formattedValue}</label>
                 </>
             }
         },
@@ -50,6 +50,7 @@ export default function Table({ isError, isLoading, employees, handleEdit, handl
             <Loading />
         )
     }
+
     return (
         <>
             <div style={{ height: 600, width: '100%' }}>
@@ -60,6 +61,9 @@ export default function Table({ isError, isLoading, employees, handleEdit, handl
                     getEstimatedRowHeight={() => 100}
                     getRowHeight={() => 'auto'}
                     slots={{ toolbar: GridToolbar }}
+                    columnVisibilityModel={{
+                        Delete: action === 0
+                    }}
                     initialState={{
                         pagination: { paginationModel: { pageSize: paginationModel.pageSize } },
                     }}

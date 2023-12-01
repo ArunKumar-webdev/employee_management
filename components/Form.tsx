@@ -1,8 +1,6 @@
 "use client"
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useState } from "react";
 
 interface findDataType {
@@ -10,7 +8,7 @@ interface findDataType {
   employee_name: string;
   employee_salary: string;
   employee_age: string;
-  profile_image: string;
+  avatar: string;
 }
 
 interface FormData {
@@ -19,30 +17,36 @@ interface FormData {
   type?: string;
   findData?: findDataType;
   createEmployee?: (data: any) => Promise<void>;
+  setisEditOpen?: () => void;
   updateEmployee?: (id: number, data: any) => Promise<void>;
 }
 
-const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoading }: FormData) => {
+const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoading, setisEditOpen }: FormData) => {
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset
-  } = useForm({ defaultValues: { id: findData?.id, employee_name: findData?.employee_name, employee_salary: findData?.employee_salary, employee_age: findData?.employee_age, profile_image: findData?.profile_image } });
+  } = useForm({ defaultValues: { id: findData?.id, employee_name: findData?.employee_name, employee_salary: findData?.employee_salary, employee_age: findData?.employee_age, avatar: findData?.avatar } });
 
-  const [proPicUrl, setproPicUrl] = useState(findData?.profile_image ? findData?.profile_image : '');
-  const router = useRouter();
+  const [proPicUrl, setproPicUrl] = useState(findData?.avatar ? findData?.avatar : '');
+
   const onSubmit = (data) => {
     createEmployee(data);
     reset();
-    router.push("/");
+    setproPicUrl('');
+    if (!isError && type === 'Add') {
+      alert('Data Added Sucessfully')
+    }
+    if (type !== 'Add')
+      setisEditOpen();
   };
 
   const onEdit = (data) => {
     updateEmployee(findData.id, data);
     reset();
-    router.push("/");
+    setisEditOpen();
   };
 
   return (
@@ -51,7 +55,6 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
         onSubmit={type === 'Add' ? handleSubmit(onSubmit) : handleSubmit(onEdit)}
         className="mx-[20rem] ss:mx-[10rem] my-7 shadow-lg"
       >
-        <div className="mb-9 font-semibold">{`${type} Employee Information :`}</div>
         <div className="">
           <div className="flex flex-col gap-10 mx-6 ">
             {/* Name*/}
@@ -80,11 +83,10 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
             </div>
             <div className="flex flex-wrap">
               {/* Salary*/}
-              <div className="w-1/4">
+              <div className="w-1/3">
                 <h3 className="text-lg font-semibold">Salary<span className="text-red-600">*</span></h3>
                 <div className="flex justify-between items-center gap-2 border-[1.5px] p-2 rounded-lg border-black py-4 w-full">
                   <input
-                    type="number"
                     id="salary"
                     placeholder="Employee Salary"
                     {...register("employee_salary", {
@@ -105,11 +107,10 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
                 )}
               </div>
               {/* Age*/}
-              <div className="w-1/4 mx-5">
+              <div className="w-1/3 mx-5">
                 <h3 className="text-lg font-semibold">Age<span className="text-red-600">*</span></h3>
                 <div className="flex justify-between items-center gap-2 border-[1.5px] p-2 rounded-lg border-black py-4">
                   <input
-                    type="number"
                     id="agreementdate"
                     placeholder="Employee Age"
                     {...register("employee_age", {
@@ -138,18 +139,18 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
                 <input
                   type="text"
                   placeholder="Employee profile image as url"
-                  {...register("profile_image", {
+                  {...register("avatar", {
                     required: "Profile image is required"
                   })}
-                  id="profile_image"
-                  name="profile_image"
+                  id="avatar"
+                  name="avatar"
                   className="focus:border-none focus:outline-none "
                   onChange={(e) => { setproPicUrl(e.target.value) }}
                 />
               </div>
-              {errors.profile_image && (
+              {errors.avatar && (
                 <span className="text-[14px] text-red-400">
-                  {`${errors.profile_image?.message}`}
+                  {`${errors.avatar?.message}`}
                 </span>
               )}
             </div>
@@ -165,9 +166,9 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
               type="submit"
               className="bg-[#1976d2] text-white font-semibold py-2 px-8 rounded-lg"
             > {'Add'} </button>
-            <Link href={"/"}>
-              <button className="bg-[#539feb] text-white font-semibold py-2 px-8 rounded-lg">{'Cancel'}</button>
-            </Link>
+            {type !== 'Add' && <button className="bg-[#539feb] text-white font-semibold py-2 px-8 rounded-lg" onClick={() => {
+              setisEditOpen();
+            }}>{'Cancel'}</button>}
           </div>
         </div>
 
