@@ -1,11 +1,28 @@
 "use client"
-
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 
-const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoading }) => {
+interface findDataType {
+  id: number;
+  employee_name: string;
+  employee_salary: string;
+  employee_age: string;
+  profile_image: string;
+}
+
+interface FormData {
+  isLoading?: boolean;
+  isError?: string;
+  type?: string;
+  findData?: findDataType;
+  createEmployee?: (data: any) => Promise<void>;
+  updateEmployee?: (id: number, data: any) => Promise<void>;
+}
+
+const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoading }: FormData) => {
 
   const {
     register,
@@ -122,11 +139,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
                   type="text"
                   placeholder="Employee profile image as url"
                   {...register("profile_image", {
-                    required: "Profile image is required",
-
-                    pattern: {
-                      message: "Please enter a valid name",
-                    },
+                    required: "Profile image is required"
                   })}
                   id="profile_image"
                   name="profile_image"

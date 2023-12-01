@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, GridRenderCellParams } from '@mui/x-data-grid';
 import { BiEdit, BiTrashAlt } from "react-icons/bi";
-import Loading from "@/app/loading";
+import Loading from "./loading";
+import React from "react";
 
 export default function Table({ isError, isLoading, employees, handleEdit, handleDelete }) {
 
@@ -18,7 +19,7 @@ export default function Table({ isError, isLoading, employees, handleEdit, handl
         { field: 'id', headerName: 'Employee Id', },
         {
             field: 'employee_name', headerName: 'Employee Name', sortable: false, width: 200,
-            renderCell: (params) => {
+            renderCell: (params: GridRenderCellParams) => {
                 return <>
                     <img className="rounded-full w-[28px] h-[28px]" src={params.row.profile_image == "" ? '/assets/icons/avatar.png' : params.row.profile_image} alt="" />
                     <label title={params.formattedValue} className={`mx-2 ${params.formattedValue.length > 24 ? 'truncate' : ''}`}>{params.formattedValue}</label>
@@ -27,22 +28,19 @@ export default function Table({ isError, isLoading, employees, handleEdit, handl
         },
         {
             field: 'employee_salary', headerName: 'Employee Salary', width: 200,
-            renderCell: (params) =>
+            renderCell: (params: GridRenderCellParams) =>
                 <p>{'$ ' + params.formattedValue}</p>
         },
         { field: 'employee_age', headerName: 'Employee Age', width: 200 },
         {
             field: 'Edit', headerName: 'Edit', sortable: false,
-            renderCell: (params) =>
-                <button onClick={() => handleEdit && handleEdit(params.row.id)} className="cursor"><BiEdit size={25} color={"#1976d2"}></BiEdit></button>
-
-            // <Button className='bg-red-500 hover:bg-red-500 text-white'>Edit</Button>
+            renderCell: (params: GridRenderCellParams) =>
+                <button onClick={() => handleEdit(params.row.id)} className="cursor"><BiEdit size={25} color={"#1976d2"}></BiEdit></button>
         },
         {
             field: 'Delete', headerName: 'Delete', sortable: false,
-            renderCell: (params) =>
-                // <Button className='bg-red-500 hover:bg-red-500 text-white'>Delete</Button>
-                <button onClick={() => handleDelete && handleDelete(params.row.id)} className="cursor"><BiTrashAlt size={25} color={"black"}></BiTrashAlt></button>
+            renderCell: (params: GridRenderCellParams) =>
+                <button onClick={() => handleDelete(params.row.id)} className="cursor"><BiTrashAlt size={25} color={"black"}></BiTrashAlt></button>
 
         },
     ];

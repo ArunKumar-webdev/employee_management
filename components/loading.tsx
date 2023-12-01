@@ -1,6 +1,8 @@
 import Skeleton from '@mui/material/Skeleton';
 
-const Loading = () => {
+import React from 'react'
+
+export default function loading() {
   return (
     <>
       <Skeleton />
@@ -27,7 +29,5 @@ const Loading = () => {
       <Skeleton animation="wave" />
       <Skeleton animation={false} />
     </>
-  );
-};
-
-export default Loading;
+  )
+}

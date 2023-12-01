@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useEmployeesStore } from '../store/Employee'
@@ -12,8 +12,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Button } from "@mui/material";
 
-const EmployeeList = () => {
-
+export default function EmployeeList() {
   const employees = useEmployeesStore((state) => state.employeeList)
   const isLoading = useEmployeesStore((state) => state.isLoading);
   const getAllEmployees = useEmployeesStore((state) => state.getAllEmployee)
@@ -62,8 +61,10 @@ const EmployeeList = () => {
     try {
       setOpen(false);
       await deleteEmployee(emplyId);
+      router.refresh();
     } catch (error) {
       console.error(error);
+      router.refresh();
     }
   };
 
@@ -99,4 +100,3 @@ const EmployeeList = () => {
   )
 }
 
-export default EmployeeList

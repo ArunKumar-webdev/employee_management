@@ -1,12 +1,24 @@
 import { create } from "zustand";
 import { getAllEmployee, createEmployee, updateEmployee, deleteEmployee } from "../api/employee_api";
 
-let cacheData;
+let cacheData: string;
 if (typeof window !== "undefined") {
   cacheData = JSON.parse(localStorage.getItem("cachedData"));
 }
 
-export const useEmployeesStore = create((set, get) => ({
+interface EmployeesStore {
+  employeeList: any;
+  isLoading: boolean;
+  error: string | null;
+
+  createEmployee: (data: any) => Promise<void>;
+  deleteEmployee: (id: number) => Promise<void>;
+  updateEmployee: (id: number, data: any) => Promise<void>;
+  getAllEmployee: () => Promise<void>;
+  clearError: () => void;
+}
+
+export const useEmployeesStore = create<EmployeesStore>((set, get) => ({
   employeeList: cacheData ? cacheData : [],
   isLoading: false,
   error: null,
