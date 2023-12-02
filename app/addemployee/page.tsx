@@ -2,10 +2,10 @@
 import React from "react";
 import Form from "../../components/Form";
 
-import { useEmployeesStore } from "../../store/Employee"
+import { UseEmployeesStore } from "../../store/Employee"
 const AddEmployee = () => {
-  const createEmployee = useEmployeesStore((state) => state.createEmployee);
-  const isError = useEmployeesStore((state) => state.error);
+  const createEmployee = UseEmployeesStore((state) => state.createEmployee);
+  const isError = UseEmployeesStore((state) => state.error);
   return (
     <Form isError={isError} type="Add" createEmployee={createEmployee} />
   )

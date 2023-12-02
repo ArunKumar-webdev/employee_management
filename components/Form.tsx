@@ -2,6 +2,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useTranslation, } from 'react-i18next';
+import Image from "next/image";
 
 interface findDataType {
   id: number;
@@ -23,13 +25,9 @@ interface FormData {
 
 const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoading, setisEditOpen }: FormData) => {
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset
-  } = useForm({ defaultValues: { id: findData?.id, employee_name: findData?.employee_name, employee_salary: findData?.employee_salary, employee_age: findData?.employee_age, avatar: findData?.avatar } });
-
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset }
+    = useForm({ defaultValues: { id: findData?.id, employee_name: findData?.employee_name, employee_salary: findData?.employee_salary, employee_age: findData?.employee_age, avatar: findData?.avatar } });
+  const { t } = useTranslation();
   const [proPicUrl, setproPicUrl] = useState(findData?.avatar ? findData?.avatar : '');
 
   const onSubmit = (data) => {
@@ -59,14 +57,14 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
           <div className="flex flex-col gap-10 mx-6 ">
             {/* Name*/}
             <div className="w-full">
-              <h3 className="text-lg font-semibold">Name<span className="text-red-600">*</span></h3>
+              <h3 className="text-lg font-semibold">{t('Name')}<span className="text-red-600">*</span></h3>
               <div className="flex flex-col gap-2 border-[1.5px] p-2 rounded-lg border-black py-4 w-full">
                 <input type="text"
                   placeholder="Employee Name"
                   {...register("employee_name", {
                     required: "Employee name is required",
                     pattern: {
-                      value: /^(?=.{1,33}$)[a-zA-Z0-9]*[^$%^&*;:,<>?()\"']*$/,
+                      value: /^(?=.{1,50}$)[a-zA-Z0-9]*[^$%^&*;:,<>?()\"']*$/,
                       message: "Please enter a valid name",
                     },
                   })}
@@ -84,7 +82,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
             <div className="flex flex-wrap">
               {/* Salary*/}
               <div className="w-1/3">
-                <h3 className="text-lg font-semibold">Salary<span className="text-red-600">*</span></h3>
+                <h3 className="text-lg font-semibold">{t("Salary")}<span className="text-red-600">*</span></h3>
                 <div className="flex justify-between items-center gap-2 border-[1.5px] p-2 rounded-lg border-black py-4 w-full">
                   <input
                     id="salary"
@@ -108,7 +106,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
               </div>
               {/* Age*/}
               <div className="w-1/3 mx-5">
-                <h3 className="text-lg font-semibold">Age<span className="text-red-600">*</span></h3>
+                <h3 className="text-lg font-semibold">{t("Age")}<span className="text-red-600">*</span></h3>
                 <div className="flex justify-between items-center gap-2 border-[1.5px] p-2 rounded-lg border-black py-4">
                   <input
                     id="agreementdate"
@@ -134,7 +132,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
 
             {/* Profile*/}
             <div className="w-full">
-              <h3 className="text-lg font-semibold">Profile Image<span className="text-red-600">*</span></h3>
+              <h3 className="text-lg font-semibold">{t("ProfileImage")}<span className="text-red-600">*</span></h3>
               <div className="flex flex-col gap-2 border-[1.5px] p-2 rounded-lg border-black py-4 w-full">
                 <input
                   type="text"
@@ -155,7 +153,7 @@ const Form = ({ isError, type, createEmployee, findData, updateEmployee, isLoadi
               )}
             </div>
             <div className="w-full">
-              <h3 className="text-lg font-semibold mb-2">{'Profile Image Preview'}</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('ProfileImagePreview')}</h3>
               <img className="w-32 h-32" src={proPicUrl == "" ? '/assets/icons/avatar.png' : proPicUrl} alt="" />
             </div>
           </div>

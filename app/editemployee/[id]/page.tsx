@@ -1,16 +1,19 @@
 "use client";
 import React from "react";
 import Form from "../../../components/Form";
-import { useEmployeesStore } from '../../../store/Employee'
+import { UseEmployeesStore } from '../../../store/Employee'
 
-const EditEmployee = ({ emplyId }) => {
-  const id = emplyId;
-  const employees = useEmployeesStore((state) => state.employeeList)
-  const isLoading = useEmployeesStore((state) => state.isLoading);
-  const updateEmployee = useEmployeesStore((state) => state.updateEmployee)
-  const setisEditOpen = useEmployeesStore((state) => state.setisEditOpen)
-  const isError = useEmployeesStore((state) => state.error);
-  const findData = employees.find((data => data.id == id));
+interface EditEmployeeProps {
+  emplyId: number
+}
+
+export default function pagEditEmployeee({ emplyId }: EditEmployeeProps) {
+  const employees = UseEmployeesStore((state) => state.employeeList)
+  const isLoading = UseEmployeesStore((state) => state.isLoading);
+  const updateEmployee = UseEmployeesStore((state) => state.updateEmployee)
+  const setisEditOpen = UseEmployeesStore((state) => state.setisEditOpen)
+  const isError = UseEmployeesStore((state) => state.error);
+  const findData = employees.find((data => data.id == emplyId));
 
   return (
     <Form
@@ -22,6 +25,4 @@ const EditEmployee = ({ emplyId }) => {
       setisEditOpen={setisEditOpen}
     />
   );
-};
-
-export default EditEmployee;
+}

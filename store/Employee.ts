@@ -32,7 +32,7 @@ const generateFakeAge = () => {
   return randomNumber.toString();
 };
 
-export const useEmployeesStore = create<EmployeesStore>((set, get) => ({
+export const UseEmployeesStore = create<EmployeesStore>((set, get) => ({
   employeeList: cacheData ? cacheData : [],
   isLoading: false,
   error: null,
