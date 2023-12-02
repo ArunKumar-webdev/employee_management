@@ -14,7 +14,6 @@ export default function pagEditEmployeee({ emplyId }: EditEmployeeProps) {
   const setisEditOpen = UseEmployeesStore((state) => state.setisEditOpen)
   const isError = UseEmployeesStore((state) => state.error);
   const findData = employees.find((data => data.id == emplyId));
-
   return (
     <Form
       type="Edit"
